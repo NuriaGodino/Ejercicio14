@@ -6,20 +6,7 @@ import modelo.negocio.GestorCoche;
 
 public class MainCoche {
 
-	public static void main(String[] args) {
-		
-		/*GestorCoche gc = new GestorCoche();
-		//DaoCocheMySQL a = new DaoCocheMySQL();
-		Coche c = new Coche();
-		c.setId(3);
-		c.setMatricula("Mercedes60");
-		c.setMarca("Mercedes");
-		c.setModelo("Modelo");
-		c.setKilometros(50);
-		
-		gc.alta(c);
-		gc.baja(2);*/
-		
+	public static void main(String[] args) {	
 		
 		System.out.println("Bienvenidos a nuestra CRUD de coches");
 		Scanner sc = new Scanner(System.in);
@@ -48,7 +35,11 @@ public class MainCoche {
 				}else if(alta == 1) {
 					System.out.println("Error de conexion con la BBDD");
 				}else if(alta == 2) {
-					System.out.println("La matricula tiene menis de 7 caracteres");
+					System.out.println("La matricula tiene menos de 7 caracteres");
+				}else if(alta == 3) {
+					System.out.println("Los kilometros no pueden ser negativos");
+				}else if(alta == 4) {
+					System.out.println("La matricula introducida ya esta en la BBDD");
 				}
 				
 				break;

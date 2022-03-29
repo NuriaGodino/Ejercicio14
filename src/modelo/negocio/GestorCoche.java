@@ -12,13 +12,22 @@ public class GestorCoche {
 	
 	public int alta(Coche c) {
 		if(c.getMatricula().length() >= 7) {
-			boolean alta = daoCoche.alta(c);
-			if(alta) {
-				return 0;
-			}else {
-				return 1;
+			if(!(c.getMatricula().equals(daoCoche.buscarPorMatricula(c.getMatricula()).getMatricula()))) {
+				if(c.getKilometros() >= 0) {
+					boolean alta = daoCoche.alta(c);
+					if(alta) {
+						return 0;
+					}else {
+						return 1;
+					}
+				}else { //km negativos
+					return 3;
+				}
+			}else { //la matricula ya esta introducida
+				return 4;
 			}
-		}else {
+			
+		}else { //matricula menor de 7 caracter
 			return 2;
 		}
 	}
@@ -27,7 +36,7 @@ public class GestorCoche {
 		return daoCoche.baja(id);
 	}
 	
-	public boolean modificar(int id) {
+	public boolean modificar(Coche id) {
 		return daoCoche.modificar(id);
 	}
 	

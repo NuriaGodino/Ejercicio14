@@ -92,8 +92,8 @@ public class DaoCocheMySQL implements DaoCoche{
 			}
 		}catch(SQLException e) {
 			System.out.println("Baja ----> No se ha podido dar de baja el id " + id);
-			System.out.println(e.getMessage());
 			baja = false;
+			e.printStackTrace();
 		}finally {
 			cerrarConexion();
 		}
@@ -102,16 +102,20 @@ public class DaoCocheMySQL implements DaoCoche{
 	}
 
 	@Override
-	public boolean modificar(int id) {
+	public boolean modificar(Coche c) {
 		if(!abrirConexion()) {
 			return false;
 		}
 		
 		boolean modificado = true;
-		String query = "update coches set ID = " + id;
+		String query = "update coches set (MATRICULA, MARCA, MODELO, KILOMETROS) " + " values(?,?,?,?)" + "WHERE ID = ?";
 		try {
 			PreparedStatement ps = conexion.prepareStatement(query);
-			ps.setInt(1, id);
+			ps.setString(1, c.getMatricula());
+			ps.setString(2, c.getMarca());
+			ps.setString(3, c.getModelo());
+			ps.setInt(4, c.getKilometros());
+			ps.setInt(5, c.getId());
 			
 			int numFilasAfectadas = ps.executeUpdate();
 			if(numFilasAfectadas == 0){
@@ -120,13 +124,137 @@ public class DaoCocheMySQL implements DaoCoche{
 				modificado = true;
 			}
 		}catch (SQLException e) {
-			System.out.println("Modificar ----> No se ha podido modificar el coche con el id " + id);
-			System.out.println(e.getMessage());
+			System.out.println("Modificar ----> No se ha podido modificar el coche con el id ");
 			modificado = false;
+			e.printStackTrace();
 		}finally {
 			cerrarConexion();
 		}
 		return modificado;
+	}
+	
+	@Override
+	public Coche buscarPorID(int id) {
+		if(!abrirConexion()) {
+			return null;
+		}
+		
+		Coche c = new Coche();
+		String query = "select ID, MATRICULA, MARCA, MODELO, KILOMETROS from coches " + "where ID = ?";
+		
+		try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				c.setId(rs.getInt(1));
+				c.setMatricula(rs.getString(2));
+				c.setMarca(rs.getString(3));
+				c.setModelo(rs.getString(4));
+				c.setKilometros(rs.getInt(5));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("No se encontró el coche por el ID " + id);
+			e.printStackTrace();
+		}finally {
+			cerrarConexion();
+		}
+		return c;
+	}
+
+	@Override
+	public Coche buscarPorMatricula(String matricula) {
+		if(!abrirConexion()) {
+			return null;
+		}
+		
+		Coche c = new Coche();
+		String query = "select ID, MATRICULA, MARCA, MODELO, KILOMETROS from coches " + "where MATRICULA = ?";
+		
+		try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+			ps.setString(1, matricula);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				c.setId(rs.getInt(1));
+				c.setMatricula(rs.getString(2));
+				c.setMarca(rs.getString(3));
+				c.setModelo(rs.getString(4));
+				c.setKilometros(rs.getInt(5));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("No se encontró el coche por la matricula " + matricula);
+			e.printStackTrace();
+		}finally {
+			cerrarConexion();
+		}
+		return c;
+	}
+
+	@Override
+	public Coche buscarPorMarca(String marca) {
+		if(!abrirConexion()) {
+			return null;
+		}
+		
+		Coche c = new Coche();
+		String query = "select ID, MATRICULA, MARCA, MODELO, KILOMETROS from coches " + "where MARCA = ?";
+		
+		try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+			ps.setString(1, marca);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				c.setId(rs.getInt(1));
+				c.setMatricula(rs.getString(2));
+				c.setMarca(rs.getString(3));
+				c.setModelo(rs.getString(4));
+				c.setKilometros(rs.getInt(5));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("No se encontró el coche por la marca " + marca);
+			e.printStackTrace();
+		}finally {
+			cerrarConexion();
+		}
+		return c;
+	}
+
+	@Override
+	public Coche buscarPorModelo(String modelo) {
+		if(!abrirConexion()) {
+			return null;
+		}
+		
+		Coche c = new Coche();
+		String query = "select ID, MATRICULA, MARCA, MODELO, KILOMETROS from coches " + "where MODELO = ?";
+		
+		try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+			ps.setString(1, modelo);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				c.setId(rs.getInt(1));
+				c.setMatricula(rs.getString(2));
+				c.setMarca(rs.getString(3));
+				c.setModelo(rs.getString(4));
+				c.setKilometros(rs.getInt(5));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("No se encontró el coche por el modelo " + modelo);
+			e.printStackTrace();
+		}finally {
+			cerrarConexion();
+		}
+		return c;
 	}
 
 	@Override
@@ -137,13 +265,13 @@ public class DaoCocheMySQL implements DaoCoche{
 		
 		List<Coche> listaCoches = new ArrayList<Coche>();
 		String query = "select ID, MATRICULA, MARCA, MODELO, KILOMETROS from coches";
+		Coche c = new Coche();
 		
 		try {
 			PreparedStatement ps = conexion.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				Coche c = new Coche();
 				c.setId(rs.getInt(1));
 				c.setMatricula(rs.getString(2));
 				c.setMarca(rs.getString(3));

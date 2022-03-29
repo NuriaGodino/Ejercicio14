@@ -25,15 +25,42 @@ public interface DaoCoche {
 	/**
 	 * @author Nuria Godino
 	 * Metodo que modifica un coche en una BBDD. 
-	 * @param id del coche a modificar
+	 * @param coche a modificar
 	 * @return true en caso de que se haya modificado. false en caso de error con BBDD
 	 */
-	boolean modificar(int id);
+	boolean modificar(Coche c);
 	
-	//TODO: Hacer los buscar
+	/**
+	 * @author Nuria Godino
+	 * Metodo que busca un coche en una BBDD segun el id
+	 * @param id del coche a buscar
+	 * @return el coche que se está buscando
+	 */
+	Coche buscarPorID(int id);
+	
+	/**
+	 * @author Nuria Godino
+	 * Metodo que busca un coche en una BBDD segun la matricula
+	 * @param matricula del coche a buscar
+	 * @return el coche que se está buscando
+	 */
+	Coche buscarPorMatricula(String matricula);
+	
+	/**
+	 * @author Nuria Godino
+	 * Metodo que busca un coche en una BBDD segun el marca
+	 * @param marca del coche a buscar
+	 * @return el coche que se está buscando
+	 */
+	Coche buscarPorMarca(String marca);
+	
+	/**
+	 * @author Nuria Godino
+	 * Metodo que busca un coche en una BBDD segun el modelo
+	 * @param modelo del coche a buscar
+	 * @return el coche que se está buscando
+	 */
+	Coche buscarPorModelo(String modelo);
 	
 	List<Coche> listar();
-	
-	//TODO: Salir de la app
-	
 }
