@@ -36,8 +36,41 @@ public class GestorCoche {
 		return daoCoche.baja(id);
 	}
 	
-	public boolean modificar(Coche id) {
-		return daoCoche.modificar(id);
+	public int modificar(Coche c) {
+		if(c.getMatricula().length() >= 7) {
+			if(!(c.getMatricula().equals(daoCoche.buscarPorMatricula(c.getMatricula()).getMatricula()))) {
+				if(c.getKilometros() >= 0) {
+					boolean mod = daoCoche.modificar(c);
+					if(mod) {
+						return 0; //todo correcto
+					}else {
+						return 1;
+					}
+				}else {
+					return 3; //km negativos
+				}
+			}else {
+				return 4; //matricula ya introducida
+			}
+		}else {
+			return 2; //Matricula menor de 7 caracteres
+		}
+	}
+	
+	public Coche buscarPorID(int id) {
+		return daoCoche.buscarPorID(id);
+	}
+	
+	public Coche buscarPorMatricula(String matricula) {
+		return daoCoche.buscarPorMatricula(matricula);
+	}
+	
+	public Coche buscarCochePorMarca(String marca) {
+		return daoCoche.buscarPorMarca(marca);
+	}
+	
+	public Coche buscarCochePorModelo(String modelo) {
+		return daoCoche.buscarPorModelo(modelo);
 	}
 	
 	public List<Coche> listar(){

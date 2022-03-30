@@ -108,7 +108,7 @@ public class DaoCocheMySQL implements DaoCoche{
 		}
 		
 		boolean modificado = true;
-		String query = "update coches set (MATRICULA, MARCA, MODELO, KILOMETROS) " + " values(?,?,?,?)" + "WHERE ID = ?";
+		String query = "update coches set MATRICULA=?, MARCA=?, MODELO=?, KILOMETROS=? WHERE ID=?";
 		try {
 			PreparedStatement ps = conexion.prepareStatement(query);
 			ps.setString(1, c.getMatricula());
@@ -286,6 +286,6 @@ public class DaoCocheMySQL implements DaoCoche{
 		}finally {
 			cerrarConexion();
 		}
-		return null;
+		return listaCoches;
 	}
 }
